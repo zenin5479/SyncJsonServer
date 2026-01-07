@@ -234,7 +234,7 @@ namespace SyncJsonServer
    {
       static void Main(string[] args)
       {
-         var server = new HttpServer("http://localhost:8080/");
+         var server = new HttpServer("http://127.0.0.1:8080/");
 
          try
          {
