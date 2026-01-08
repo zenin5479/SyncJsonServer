@@ -237,7 +237,6 @@ namespace SyncJsonServer
       static void Main()
       {
          HttpServer server = new HttpServer("http://127.0.0.1:8080/");
-
          try
          {
             server.Start();
