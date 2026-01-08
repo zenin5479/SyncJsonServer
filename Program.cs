@@ -14,14 +14,14 @@ namespace SyncJsonServer
       public double Price { get; set; }
    }
 
-   public class HttpServer
+   public class SyncServer
    {
       private readonly HttpListener _listener;
       private readonly string _url;
       private readonly List<Item> _items = new List<Item>();
       private int _nextId = 1;
 
-      public HttpServer(string url)
+      public SyncServer(string url)
       {
          _url = url;
          _listener = new HttpListener();
@@ -236,7 +236,7 @@ namespace SyncJsonServer
    {
       static void Main()
       {
-         HttpServer server = new HttpServer("http://127.0.0.1:8080/");
+         SyncServer server = new SyncServer("http://127.0.0.1:8080/");
          try
          {
             server.Start();
