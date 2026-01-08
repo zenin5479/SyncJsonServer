@@ -37,20 +37,20 @@ namespace SyncJsonServer
          {
             try
             {
-               var context = _listener.GetContext();
+               HttpListenerContext context = _listener.GetContext();
                ProcessRequest(context);
             }
             catch (Exception ex)
             {
-               Console.WriteLine("Error: {0}", ex.Message);
+               Console.WriteLine("Ошибка: {0}", ex.Message);
             }
          }
       }
 
       private void ProcessRequest(HttpListenerContext context)
       {
-         var request = context.Request;
-         var response = context.Response;
+         HttpListenerRequest request = context.Request;
+         HttpListenerResponse response = context.Response;
 
          try
          {
