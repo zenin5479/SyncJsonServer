@@ -246,7 +246,7 @@ namespace SyncJsonServer
          }
          catch (Exception ex)
          {
-            Console.WriteLine("Error: {0}", ex.Message);
+            Console.WriteLine("Ошибка: {0}", ex.Message);
          }
       }
    }
