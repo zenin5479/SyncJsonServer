@@ -172,7 +172,7 @@ namespace SyncJsonServer
          using StreamReader reader = new StreamReader(request.InputStream, request.ContentEncoding);
          string body = reader.ReadToEnd();
 
-         var updatedItem = JsonConvert.DeserializeObject<Item>(body);
+         Item updatedItem = JsonConvert.DeserializeObject<Item>(body);
          if (updatedItem == null || string.IsNullOrEmpty(updatedItem.Name))
          {
             SendResponse(response, 400, new { error = "Недопустимые данные товара" });
