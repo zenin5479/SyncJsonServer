@@ -194,14 +194,14 @@ namespace SyncJsonServer
             return;
          }
 
-         var idStr = path.Substring("api/items/".Length);
+         string idStr = path.Substring("api/items/".Length);
          if (!int.TryParse(idStr, out int id))
          {
             SendResponse(response, 400, new { error = "Неверный идентификатор ID" });
             return;
          }
 
-         var item = _items.Find(i => i.Id == id);
+         Item item = _items.Find(i => i.Id == id);
          if (item == null)
          {
             SendResponse(response, 404, new { error = "Товар не найден" });
@@ -214,7 +214,7 @@ namespace SyncJsonServer
 
       private void SendResponse(HttpListenerResponse response, int statusCode, object data)
       {
-         var json = JsonConvert.SerializeObject(data, Formatting.Indented);
+         string json = JsonConvert.SerializeObject(data, Formatting.Indented);
          var buffer = Encoding.UTF8.GetBytes(json);
 
          response.StatusCode = statusCode;
