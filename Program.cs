@@ -32,7 +32,6 @@ namespace SyncJsonServer
       {
          _listener.Start();
          Console.WriteLine("Сервер запущен по адресу {0}", _url);
-
          while (true)
          {
             try
@@ -51,11 +50,9 @@ namespace SyncJsonServer
       {
          HttpListenerRequest request = context.Request;
          HttpListenerResponse response = context.Response;
-
          try
          {
             Console.WriteLine("{0} {1}", request.HttpMethod, request.Url?.AbsolutePath);
-
             if (request.HttpMethod == "GET")
             {
                HandleGet(request, response);
@@ -90,7 +87,6 @@ namespace SyncJsonServer
       private void HandleGet(HttpListenerRequest request, HttpListenerResponse response)
       {
          string path = request.Url?.AbsolutePath.Trim('/');
-
          if (string.IsNullOrEmpty(path) || path == "api/items")
          {
             SendResponse(response, 200, _items);
@@ -130,20 +126,22 @@ namespace SyncJsonServer
             return;
          }
 
-         using StreamReader reader = new StreamReader(request.InputStream, request.ContentEncoding);
-         string body = reader.ReadToEnd();
-
-         Item newItem = JsonConvert.DeserializeObject<Item>(body);
-         if (newItem == null || string.IsNullOrEmpty(newItem.Name))
+         using (StreamReader reader = new StreamReader(request.InputStream, request.ContentEncoding))
          {
-            SendResponse(response, 400, new { error = "Недопустимые данные товара" });
-            return;
+            string body = reader.ReadToEnd();
+
+            Item newItem = JsonConvert.DeserializeObject<Item>(body);
+            if (newItem == null || string.IsNullOrEmpty(newItem.Name))
+            {
+               SendResponse(response, 400, new { error = "Недопустимые данные товара" });
+               return;
+            }
+
+            newItem.Id = _nextId++;
+            _items.Add(newItem);
+
+            SendResponse(response, 201, newItem);
          }
-
-         newItem.Id = _nextId++;
-         _items.Add(newItem);
-
-         SendResponse(response, 201, newItem);
       }
 
       private void HandlePut(HttpListenerRequest request, HttpListenerResponse response)
@@ -169,20 +167,22 @@ namespace SyncJsonServer
             return;
          }
 
-         using StreamReader reader = new StreamReader(request.InputStream, request.ContentEncoding);
-         string body = reader.ReadToEnd();
-
-         Item updatedItem = JsonConvert.DeserializeObject<Item>(body);
-         if (updatedItem == null || string.IsNullOrEmpty(updatedItem.Name))
+         using (StreamReader reader = new StreamReader(request.InputStream, request.ContentEncoding))
          {
-            SendResponse(response, 400, new { error = "Недопустимые данные товара" });
-            return;
+            string body = reader.ReadToEnd();
+
+            Item updatedItem = JsonConvert.DeserializeObject<Item>(body);
+            if (updatedItem == null || string.IsNullOrEmpty(updatedItem.Name))
+            {
+               SendResponse(response, 400, new { error = "Недопустимые данные товара" });
+               return;
+            }
+
+            existingItem.Name = updatedItem.Name;
+            existingItem.Price = updatedItem.Price;
+
+            SendResponse(response, 200, existingItem);
          }
-
-         existingItem.Name = updatedItem.Name;
-         existingItem.Price = updatedItem.Price;
-
-         SendResponse(response, 200, existingItem);
       }
 
       private void HandleDelete(HttpListenerRequest request, HttpListenerResponse response)
@@ -236,7 +236,7 @@ namespace SyncJsonServer
    {
       static void Main()
       {
-         var server = new HttpServer("http://127.0.0.1:8080/");
+         HttpServer server = new HttpServer("http://127.0.0.1:8080/");
 
          try
          {
