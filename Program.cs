@@ -72,7 +72,7 @@ namespace SyncJsonServer
                HandleDelete(request, response);
             else
             {
-               SendResponse(response, 405, new { error = "Method not allowed" });
+               SendResponse(response, 405, new { error = "Метод не разрешен" });
             }
          }
          catch (Exception ex)
