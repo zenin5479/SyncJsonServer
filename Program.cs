@@ -69,7 +69,9 @@ namespace SyncJsonServer
                HandlePut(request, response);
             }
             else if (request.HttpMethod == "DELETE")
+            {
                HandleDelete(request, response);
+            }
             else
             {
                SendResponse(response, 405, new { error = "Метод не разрешен" });
