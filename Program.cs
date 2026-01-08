@@ -243,12 +243,11 @@ namespace SyncJsonServer
          catch (HttpListenerException ex)
          {
             Console.WriteLine("Не удалось запустить сервер: {0}", ex.Message);
-            Console.WriteLine("Возможно, вам потребуется запуститься от имени администратора или добавить URL:");
-            Console.WriteLine("netsh http add urlacl url=http://+:8080/ user={0}", Environment.UserName);
+            Console.WriteLine("Требуется запустить приложение от имени администратора или добавить URL:");
          }
          catch (Exception ex)
          {
-            Console.WriteLine($"Error: {ex.Message}");
+            Console.WriteLine("Error: {0}", ex.Message);
          }
       }
    }
