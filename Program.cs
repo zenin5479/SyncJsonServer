@@ -130,8 +130,8 @@ namespace SyncJsonServer
             return;
          }
 
-         using var reader = new StreamReader(request.InputStream, request.ContentEncoding);
-         var body = reader.ReadToEnd();
+         using StreamReader reader = new StreamReader(request.InputStream, request.ContentEncoding);
+         string body = reader.ReadToEnd();
 
          var newItem = JsonConvert.DeserializeObject<Item>(body);
          if (newItem == null || string.IsNullOrEmpty(newItem.Name))
