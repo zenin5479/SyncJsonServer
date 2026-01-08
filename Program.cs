@@ -243,7 +243,6 @@ namespace SyncJsonServer
          catch (HttpListenerException ex)
          {
             Console.WriteLine("Не удалось запустить сервер: {0}", ex.Message);
-            Console.WriteLine("Требуется запустить приложение от имени администратора или добавить URL:");
          }
          catch (Exception ex)
          {
