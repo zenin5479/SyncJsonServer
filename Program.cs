@@ -215,7 +215,7 @@ namespace SyncJsonServer
       private void SendResponse(HttpListenerResponse response, int statusCode, object data)
       {
          string json = JsonConvert.SerializeObject(data, Formatting.Indented);
-         var buffer = Encoding.UTF8.GetBytes(json);
+         byte[] buffer = Encoding.UTF8.GetBytes(json);
 
          response.StatusCode = statusCode;
          response.ContentType = "application/json";
@@ -234,7 +234,7 @@ namespace SyncJsonServer
 
    class Program
    {
-      static void Main(string[] args)
+      static void Main()
       {
          var server = new HttpServer("http://127.0.0.1:8080/");
 
