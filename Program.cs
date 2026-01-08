@@ -31,7 +31,7 @@ namespace SyncJsonServer
       public void Start()
       {
          _listener.Start();
-         Console.WriteLine($"Server started at {_url}");
+         Console.WriteLine("Сервер запущен по адресу {0}", _url);
 
          while (true)
          {
@@ -42,7 +42,7 @@ namespace SyncJsonServer
             }
             catch (Exception ex)
             {
-               Console.WriteLine($"Error: {ex.Message}");
+               Console.WriteLine("Error: {0}", ex.Message);
             }
          }
       }
@@ -54,7 +54,7 @@ namespace SyncJsonServer
 
          try
          {
-            Console.WriteLine($"{request.HttpMethod} {request.Url?.AbsolutePath}");
+            Console.WriteLine("{0} {1}", request.HttpMethod, request.Url?.AbsolutePath);
 
             switch (request.HttpMethod)
             {
