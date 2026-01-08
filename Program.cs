@@ -114,7 +114,7 @@ namespace SyncJsonServer
             }
             else
             {
-               SendResponse(response, 400, new { error = "Invalid ID" });
+               SendResponse(response, 400, new { error = "Неверный идентификатор ID" });
             }
             return;
          }
