@@ -187,7 +187,7 @@ namespace SyncJsonServer
 
       private void HandleDelete(HttpListenerRequest request, HttpListenerResponse response)
       {
-         var path = request.Url?.AbsolutePath.Trim('/');
+         string path = request.Url?.AbsolutePath.Trim('/');
          if (!path.StartsWith("api/items/"))
          {
             SendResponse(response, 404, new { error = "Не найдено" });
