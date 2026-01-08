@@ -175,7 +175,7 @@ namespace SyncJsonServer
          var updatedItem = JsonConvert.DeserializeObject<Item>(body);
          if (updatedItem == null || string.IsNullOrEmpty(updatedItem.Name))
          {
-            SendResponse(response, 400, new { error = "Invalid item data" });
+            SendResponse(response, 400, new { error = "Недопустимые данные товара" });
             return;
          }
 
@@ -190,7 +190,7 @@ namespace SyncJsonServer
          var path = request.Url?.AbsolutePath.Trim('/');
          if (!path.StartsWith("api/items/"))
          {
-            SendResponse(response, 404, new { error = "Not found" });
+            SendResponse(response, 404, new { error = "Не найдено" });
             return;
          }
 
@@ -209,7 +209,7 @@ namespace SyncJsonServer
          }
 
          _items.Remove(item);
-         SendResponse(response, 200, new { message = "Item deleted" });
+         SendResponse(response, 200, new { message = "Элемент удален" });
       }
 
       private void SendResponse(HttpListenerResponse response, int statusCode, object data)
