@@ -133,7 +133,7 @@ namespace SyncJsonServer
          using StreamReader reader = new StreamReader(request.InputStream, request.ContentEncoding);
          string body = reader.ReadToEnd();
 
-         var newItem = JsonConvert.DeserializeObject<Item>(body);
+         Item newItem = JsonConvert.DeserializeObject<Item>(body);
          if (newItem == null || string.IsNullOrEmpty(newItem.Name))
          {
             SendResponse(response, 400, new { error = "Недопустимые данные товара" });
@@ -148,21 +148,21 @@ namespace SyncJsonServer
 
       private void HandlePut(HttpListenerRequest request, HttpListenerResponse response)
       {
-         var path = request.Url?.AbsolutePath.Trim('/');
+         string path = request.Url?.AbsolutePath.Trim('/');
          if (!path.StartsWith("api/items/"))
          {
             SendResponse(response, 404, new { error = "Не найдено" });
             return;
          }
 
-         var idStr = path.Substring("api/items/".Length);
+         string idStr = path.Substring("api/items/".Length);
          if (!int.TryParse(idStr, out int id))
          {
             SendResponse(response, 400, new { error = "Неверный идентификатор ID" });
             return;
          }
 
-         var existingItem = _items.Find(i => i.Id == id);
+         Item existingItem = _items.Find(i => i.Id == id);
          if (existingItem == null)
          {
             SendResponse(response, 404, new { error = "Товар не найден" });
