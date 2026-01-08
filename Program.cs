@@ -136,7 +136,7 @@ namespace SyncJsonServer
          var newItem = JsonConvert.DeserializeObject<Item>(body);
          if (newItem == null || string.IsNullOrEmpty(newItem.Name))
          {
-            SendResponse(response, 400, new { error = "Invalid item data" });
+            SendResponse(response, 400, new { error = "Недопустимые данные товара" });
             return;
          }
 
@@ -151,21 +151,21 @@ namespace SyncJsonServer
          var path = request.Url?.AbsolutePath.Trim('/');
          if (!path.StartsWith("api/items/"))
          {
-            SendResponse(response, 404, new { error = "Not found" });
+            SendResponse(response, 404, new { error = "Не найдено" });
             return;
          }
 
          var idStr = path.Substring("api/items/".Length);
          if (!int.TryParse(idStr, out int id))
          {
-            SendResponse(response, 400, new { error = "Invalid ID" });
+            SendResponse(response, 400, new { error = "Неверный идентификатор ID" });
             return;
          }
 
          var existingItem = _items.Find(i => i.Id == id);
          if (existingItem == null)
          {
-            SendResponse(response, 404, new { error = "Item not found" });
+            SendResponse(response, 404, new { error = "Товар не найден" });
             return;
          }
 
@@ -204,7 +204,7 @@ namespace SyncJsonServer
          var item = _items.Find(i => i.Id == id);
          if (item == null)
          {
-            SendResponse(response, 404, new { error = "Item not found" });
+            SendResponse(response, 404, new { error = "Товар не найден" });
             return;
          }
 
