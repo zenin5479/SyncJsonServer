@@ -242,7 +242,7 @@ namespace SyncJsonServer
          }
          catch (HttpListenerException ex)
          {
-            Console.WriteLine($"Failed to start server: {ex.Message}");
+            Console.WriteLine(string.Format("Failed to start server: {0}", ex.Message));
             Console.WriteLine("You may need to run as administrator or add URL ACL:");
             Console.WriteLine($"netsh http add urlacl url=http://+:8080/ user={Environment.UserName}");
          }
