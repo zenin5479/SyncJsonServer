@@ -56,23 +56,23 @@ namespace SyncJsonServer
          {
             Console.WriteLine("{0} {1}", request.HttpMethod, request.Url?.AbsolutePath);
 
-            switch (request.HttpMethod)
+            if (request.HttpMethod == "GET")
             {
-               case "GET":
-                  HandleGet(request, response);
-                  break;
-               case "POST":
-                  HandlePost(request, response);
-                  break;
-               case "PUT":
-                  HandlePut(request, response);
-                  break;
-               case "DELETE":
-                  HandleDelete(request, response);
-                  break;
-               default:
-                  SendResponse(response, 405, new { error = "Method not allowed" });
-                  break;
+               HandleGet(request, response);
+            }
+            else if (request.HttpMethod == "POST")
+            {
+               HandlePost(request, response);
+            }
+            else if (request.HttpMethod == "PUT")
+            {
+               HandlePut(request, response);
+            }
+            else if (request.HttpMethod == "DELETE")
+               HandleDelete(request, response);
+            else
+            {
+               SendResponse(response, 405, new { error = "Method not allowed" });
             }
          }
          catch (Exception ex)
