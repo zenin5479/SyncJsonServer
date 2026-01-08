@@ -89,7 +89,7 @@ namespace SyncJsonServer
 
       private void HandleGet(HttpListenerRequest request, HttpListenerResponse response)
       {
-         var path = request.Url?.AbsolutePath.Trim('/');
+         string path = request.Url?.AbsolutePath.Trim('/');
 
          if (string.IsNullOrEmpty(path) || path == "api/items")
          {
@@ -99,17 +99,17 @@ namespace SyncJsonServer
 
          if (path.StartsWith("api/items/"))
          {
-            var idStr = path.Substring("api/items/".Length);
+            string idStr = path.Substring("api/items/".Length);
             if (int.TryParse(idStr, out int id))
             {
-               var item = _items.Find(i => i.Id == id);
+               Item item = _items.Find(i => i.Id == id);
                if (item != null)
                {
                   SendResponse(response, 200, item);
                }
                else
                {
-                  SendResponse(response, 404, new { error = "Item not found" });
+                  SendResponse(response, 404, new { error = "Товар не найден" });
                }
             }
             else
