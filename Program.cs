@@ -154,11 +154,14 @@ namespace SyncJsonServer
             return;
          }
 
-         string idStr = path.Substring("api/items/".Length);
-         if (!int.TryParse(idStr, out int id))
+         if (path != null)
          {
-            SendResponse(response, 400, new { error = "Неверный идентификатор ID" });
-            return;
+            string idStr = path.Substring("api/items/".Length);
+            if (!int.TryParse(idStr, out int id))
+            {
+               SendResponse(response, 400, new { error = "Неверный идентификатор ID" });
+               return;
+            }
          }
 
          Item existingItem = _items.Find(i => i.Id == id);
