@@ -10,7 +10,6 @@ namespace SyncJsonServer
    public class Item
    {
       public int Id { get; set; }
-      public string Vendor { get; set; }
       public string Name { get; set; }
       public double Price { get; set; }
    }
@@ -87,7 +86,7 @@ namespace SyncJsonServer
 
       private void HandleGet(HttpListenerRequest request, HttpListenerResponse response)
       {
-         string path = request.Url.AbsolutePath.Trim('/');
+         string path = request.Url?.AbsolutePath.Trim('/');
          if (string.IsNullOrEmpty(path) || path == "api/items")
          {
             SendResponse(response, 200, _items);
@@ -99,31 +98,20 @@ namespace SyncJsonServer
             string idStr = path.Substring("api/items/".Length);
             if (int.TryParse(idStr, out int id))
             {
-               bool Match(Item i)
+               Item item = _items.Find(i => i.Id == id);
+               if (item != null)
                {
-                  if (i.Id == id)
-                  {
-                     return true;
-                  }
-
-                  return false;
-               }
-
-               Item item = _items.Find(Match);
-               if (item == null)
-               {
-                  SendResponse(response, 404, new { error = "Товар не найден" });
+                  SendResponse(response, 200, item);
                }
                else
                {
-                  SendResponse(response, 200, item);
+                  SendResponse(response, 404, new { error = "Товар не найден" });
                }
             }
             else
             {
                SendResponse(response, 400, new { error = "Неверный идентификатор ID" });
             }
-
             return;
          }
 
@@ -132,7 +120,7 @@ namespace SyncJsonServer
 
       private void HandlePost(HttpListenerRequest request, HttpListenerResponse response)
       {
-         if (request.Url.AbsolutePath.Trim('/') != "api/items")
+         if (request.Url?.AbsolutePath.Trim('/') != "api/items")
          {
             SendResponse(response, 404, new { error = "Не найдено" });
             return;
@@ -141,6 +129,7 @@ namespace SyncJsonServer
          using (StreamReader reader = new StreamReader(request.InputStream, request.ContentEncoding))
          {
             string body = reader.ReadToEnd();
+
             Item newItem = JsonConvert.DeserializeObject<Item>(body);
             if (newItem == null || string.IsNullOrEmpty(newItem.Name))
             {
@@ -150,13 +139,14 @@ namespace SyncJsonServer
 
             newItem.Id = _nextId++;
             _items.Add(newItem);
+
             SendResponse(response, 201, newItem);
          }
       }
 
       private void HandlePut(HttpListenerRequest request, HttpListenerResponse response)
       {
-         string path = request.Url.AbsolutePath.Trim('/');
+         string path = request.Url?.AbsolutePath.Trim('/');
          if (!path.StartsWith("api/items/"))
          {
             SendResponse(response, 404, new { error = "Не найдено" });
@@ -180,6 +170,7 @@ namespace SyncJsonServer
          using (StreamReader reader = new StreamReader(request.InputStream, request.ContentEncoding))
          {
             string body = reader.ReadToEnd();
+
             Item updatedItem = JsonConvert.DeserializeObject<Item>(body);
             if (updatedItem == null || string.IsNullOrEmpty(updatedItem.Name))
             {
@@ -189,13 +180,14 @@ namespace SyncJsonServer
 
             existingItem.Name = updatedItem.Name;
             existingItem.Price = updatedItem.Price;
+
             SendResponse(response, 200, existingItem);
          }
       }
 
       private void HandleDelete(HttpListenerRequest request, HttpListenerResponse response)
       {
-         string path = request.Url.AbsolutePath.Trim('/');
+         string path = request.Url?.AbsolutePath.Trim('/');
          if (!path.StartsWith("api/items/"))
          {
             SendResponse(response, 404, new { error = "Не найдено" });
@@ -224,10 +216,12 @@ namespace SyncJsonServer
       {
          string json = JsonConvert.SerializeObject(data, Formatting.Indented);
          byte[] buffer = Encoding.UTF8.GetBytes(json);
+
          response.StatusCode = statusCode;
          response.ContentType = "application/json";
          response.ContentLength64 = buffer.Length;
          response.ContentEncoding = Encoding.UTF8;
+
          response.OutputStream.Write(buffer, 0, buffer.Length);
       }
 
