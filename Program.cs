@@ -148,20 +148,17 @@ namespace SyncJsonServer
       private void HandlePut(HttpListenerRequest request, HttpListenerResponse response)
       {
          string path = request.Url?.AbsolutePath.Trim('/');
-         if (path != null && !path.StartsWith("api/items/"))
+         if (!path.StartsWith("api/items/"))
          {
             SendResponse(response, 404, new { error = "Не найдено" });
             return;
          }
 
-         if (path != null)
+         string idStr = path.Substring("api/items/".Length);
+         if (!int.TryParse(idStr, out int id))
          {
-            string idStr = path.Substring("api/items/".Length);
-            if (!int.TryParse(idStr, out int id))
-            {
-               SendResponse(response, 400, new { error = "Неверный идентификатор ID" });
-               return;
-            }
+            SendResponse(response, 400, new { error = "Неверный идентификатор ID" });
+            return;
          }
 
          Item existingItem = _items.Find(i => i.Id == id);
