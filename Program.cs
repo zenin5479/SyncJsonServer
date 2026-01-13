@@ -87,7 +87,7 @@ namespace SyncJsonServer
 
       private void HandleGet(HttpListenerRequest request, HttpListenerResponse response)
       {
-         string path = request.Url?.AbsolutePath.Trim('/');
+         string path = request.Url.AbsolutePath.Trim('/');
          if (string.IsNullOrEmpty(path) || path == "api/items")
          {
             SendResponse(response, 200, _items);
@@ -99,7 +99,17 @@ namespace SyncJsonServer
             string idStr = path.Substring("api/items/".Length);
             if (int.TryParse(idStr, out int id))
             {
-               Item item = _items.Find(i => i.Id == id);
+               bool Match(Item i)
+               {
+                  if (i.Id == id)
+                  {
+                     return true;
+                  }
+
+                  return false;
+               }
+
+               Item item = _items.Find(Match);
                if (item == null)
                {
                   SendResponse(response, 404, new { error = "Товар не найден" });
@@ -122,7 +132,7 @@ namespace SyncJsonServer
 
       private void HandlePost(HttpListenerRequest request, HttpListenerResponse response)
       {
-         if (request.Url?.AbsolutePath.Trim('/') != "api/items")
+         if (request.Url.AbsolutePath.Trim('/') != "api/items")
          {
             SendResponse(response, 404, new { error = "Не найдено" });
             return;
@@ -146,7 +156,7 @@ namespace SyncJsonServer
 
       private void HandlePut(HttpListenerRequest request, HttpListenerResponse response)
       {
-         string path = request.Url?.AbsolutePath.Trim('/');
+         string path = request.Url.AbsolutePath.Trim('/');
          if (!path.StartsWith("api/items/"))
          {
             SendResponse(response, 404, new { error = "Не найдено" });
@@ -185,7 +195,7 @@ namespace SyncJsonServer
 
       private void HandleDelete(HttpListenerRequest request, HttpListenerResponse response)
       {
-         string path = request.Url?.AbsolutePath.Trim('/');
+         string path = request.Url.AbsolutePath.Trim('/');
          if (!path.StartsWith("api/items/"))
          {
             SendResponse(response, 404, new { error = "Не найдено" });
