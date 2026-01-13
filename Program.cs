@@ -171,7 +171,6 @@ namespace SyncJsonServer
          using (StreamReader reader = new StreamReader(request.InputStream, request.ContentEncoding))
          {
             string body = reader.ReadToEnd();
-
             Item updatedItem = JsonConvert.DeserializeObject<Item>(body);
             if (updatedItem == null || string.IsNullOrEmpty(updatedItem.Name))
             {
@@ -181,7 +180,6 @@ namespace SyncJsonServer
 
             existingItem.Name = updatedItem.Name;
             existingItem.Price = updatedItem.Price;
-
             SendResponse(response, 200, existingItem);
          }
       }
