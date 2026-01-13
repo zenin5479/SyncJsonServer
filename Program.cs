@@ -100,13 +100,13 @@ namespace SyncJsonServer
             if (int.TryParse(idStr, out int id))
             {
                Item item = _items.Find(i => i.Id == id);
-               if (item != null)
+               if (item == null)
                {
-                  SendResponse(response, 200, item);
+                  SendResponse(response, 404, new { error = "Товар не найден" });
                }
                else
                {
-                  SendResponse(response, 404, new { error = "Товар не найден" });
+                  SendResponse(response, 200, item);
                }
             }
             else
