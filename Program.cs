@@ -215,12 +215,10 @@ namespace SyncJsonServer
       {
          string json = JsonConvert.SerializeObject(data, Formatting.Indented);
          byte[] buffer = Encoding.UTF8.GetBytes(json);
-
          response.StatusCode = statusCode;
          response.ContentType = "application/json";
          response.ContentLength64 = buffer.Length;
          response.ContentEncoding = Encoding.UTF8;
-
          response.OutputStream.Write(buffer, 0, buffer.Length);
       }
 
