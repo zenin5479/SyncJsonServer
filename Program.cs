@@ -113,6 +113,7 @@ namespace SyncJsonServer
             {
                SendResponse(response, 400, new { error = "Неверный идентификатор ID" });
             }
+
             return;
          }
 
@@ -130,7 +131,6 @@ namespace SyncJsonServer
          using (StreamReader reader = new StreamReader(request.InputStream, request.ContentEncoding))
          {
             string body = reader.ReadToEnd();
-
             Item newItem = JsonConvert.DeserializeObject<Item>(body);
             if (newItem == null || string.IsNullOrEmpty(newItem.Name))
             {
@@ -140,7 +140,6 @@ namespace SyncJsonServer
 
             newItem.Id = _nextId++;
             _items.Add(newItem);
-
             SendResponse(response, 201, newItem);
          }
       }
