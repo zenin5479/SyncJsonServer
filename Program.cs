@@ -20,7 +20,7 @@ namespace SyncJsonServer
       private readonly HttpListener _listener;
       private readonly string _url;
       private readonly List<Item> _items = new List<Item>();
-      private int _nextId = 1;
+      //private int _nextId = 1;
 
       public SyncServer(string url)
       {
