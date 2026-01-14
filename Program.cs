@@ -165,7 +165,12 @@ namespace SyncJsonServer
             return;
          }
 
-         Item existingItem = _items.Find(i => i.Id == id);
+         bool Match(Item i)
+         {
+            return i.Id == id;
+         }
+
+         Item existingItem = _items.Find(Match);
          if (existingItem == null)
          {
             SendResponse(response, 404, new { error = "Товар не найден" });
@@ -182,8 +187,10 @@ namespace SyncJsonServer
                return;
             }
 
-            existingItem.Name = updatedItem.Name; //
-            existingItem.Price = updatedItem.Price; //
+            existingItem.Id = updatedItem.Id;
+            existingItem.Vendor = updatedItem.Vendor;
+            existingItem.Name = updatedItem.Name;
+            existingItem.Price = updatedItem.Price;
             SendResponse(response, 200, existingItem);
          }
       }
