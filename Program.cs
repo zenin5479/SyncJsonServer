@@ -143,7 +143,7 @@ namespace SyncJsonServer
                return;
             }
 
-            newItem.Id = _nextId++;
+            //newItem.Id = _nextId++;
             _items.Add(newItem);
             SendResponse(response, 201, newItem);
          }
