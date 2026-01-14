@@ -10,6 +10,7 @@ namespace SyncJsonServer
    public class Item
    {
       public int Id { get; set; }
+      public string Vendor { get; set; }
       public string Name { get; set; }
       public double Price { get; set; }
    }
@@ -112,6 +113,7 @@ namespace SyncJsonServer
             {
                SendResponse(response, 400, new { error = "Неверный идентификатор ID" });
             }
+
             return;
          }
 
@@ -129,7 +131,6 @@ namespace SyncJsonServer
          using (StreamReader reader = new StreamReader(request.InputStream, request.ContentEncoding))
          {
             string body = reader.ReadToEnd();
-
             Item newItem = JsonConvert.DeserializeObject<Item>(body);
             if (newItem == null || string.IsNullOrEmpty(newItem.Name))
             {
@@ -139,7 +140,6 @@ namespace SyncJsonServer
 
             newItem.Id = _nextId++;
             _items.Add(newItem);
-
             SendResponse(response, 201, newItem);
          }
       }
@@ -170,7 +170,6 @@ namespace SyncJsonServer
          using (StreamReader reader = new StreamReader(request.InputStream, request.ContentEncoding))
          {
             string body = reader.ReadToEnd();
-
             Item updatedItem = JsonConvert.DeserializeObject<Item>(body);
             if (updatedItem == null || string.IsNullOrEmpty(updatedItem.Name))
             {
@@ -180,7 +179,6 @@ namespace SyncJsonServer
 
             existingItem.Name = updatedItem.Name;
             existingItem.Price = updatedItem.Price;
-
             SendResponse(response, 200, existingItem);
          }
       }
@@ -216,12 +214,10 @@ namespace SyncJsonServer
       {
          string json = JsonConvert.SerializeObject(data, Formatting.Indented);
          byte[] buffer = Encoding.UTF8.GetBytes(json);
-
          response.StatusCode = statusCode;
          response.ContentType = "application/json";
          response.ContentLength64 = buffer.Length;
          response.ContentEncoding = Encoding.UTF8;
-
          response.OutputStream.Write(buffer, 0, buffer.Length);
       }
 
