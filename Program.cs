@@ -186,8 +186,8 @@ namespace SyncJsonServer
                return;
             }
 
-            existingItem.Id = updatedItem.Id; //
-            existingItem.Vendor = updatedItem.Vendor; //
+            existingItem.Id = updatedItem.Id;
+            existingItem.Vendor = updatedItem.Vendor;
             existingItem.Name = updatedItem.Name;
             existingItem.Price = updatedItem.Price;
             SendResponse(response, 200, existingItem);
