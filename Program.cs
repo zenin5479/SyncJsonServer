@@ -210,7 +210,12 @@ namespace SyncJsonServer
             return;
          }
 
-         Item item = _items.Find(i => i.Id == id);
+         bool Match(Item i)
+         {
+            return i.Id == id;
+         }
+
+         Item item = _items.Find(Match);
          if (item == null)
          {
             SendResponse(response, 404, new { error = "Товар не найден" });
