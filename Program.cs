@@ -99,7 +99,12 @@ namespace SyncJsonServer
             string idStr = path.Substring("api/items/".Length);
             if (int.TryParse(idStr, out int id))
             {
-               Item item = _items.Find(i => i.Id == id);
+               bool Match(Item i)
+               {
+                  return i.Id == id;
+               }
+
+               Item item = _items.Find(Match);
                if (item != null)
                {
                   SendResponse(response, 200, item);
