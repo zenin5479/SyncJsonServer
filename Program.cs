@@ -146,7 +146,7 @@ namespace SyncJsonServer
 
       private void HandlePut(HttpListenerRequest request, HttpListenerResponse response)
       {
-         string path = request.Url?.AbsolutePath.Trim('/');
+         string path = request.Url.AbsolutePath.Trim('/');
          if (!path.StartsWith("api/items/"))
          {
             SendResponse(response, 404, new { error = "Не найдено" });
