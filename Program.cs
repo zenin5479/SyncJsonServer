@@ -53,7 +53,7 @@ namespace SyncJsonServer
          HttpListenerResponse response = context.Response;
          try
          {
-            Console.WriteLine("{0} {1}", request.HttpMethod, request.Url?.AbsolutePath);
+            Console.WriteLine("{0} {1}", request.HttpMethod, request.Url.AbsolutePath);
             if (request.HttpMethod == "GET")
             {
                HandleGet(request, response);
@@ -87,7 +87,7 @@ namespace SyncJsonServer
 
       private void HandleGet(HttpListenerRequest request, HttpListenerResponse response)
       {
-         string path = request.Url?.AbsolutePath.Trim('/');
+         string path = request.Url.AbsolutePath.Trim('/');
          if (string.IsNullOrEmpty(path) || path == "api/items")
          {
             SendResponse(response, 200, _items);
