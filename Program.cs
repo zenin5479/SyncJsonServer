@@ -122,7 +122,7 @@ namespace SyncJsonServer
 
       private void HandlePost(HttpListenerRequest request, HttpListenerResponse response)
       {
-         if (request.Url?.AbsolutePath.Trim('/') != "api/items")
+         if (request.Url.AbsolutePath.Trim('/') != "api/items")
          {
             SendResponse(response, 404, new { error = "Не найдено" });
             return;
