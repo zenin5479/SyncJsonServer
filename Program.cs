@@ -187,7 +187,8 @@ namespace SyncJsonServer
                SendResponse(response, 400, new { error = "Недопустимые данные товара" });
                return;
             }
-
+            existingItem.Date = updatedItem.Date;
+            existingItem.Timestamp = updatedItem.Timestamp;
             existingItem.Id = updatedItem.Id;
             existingItem.Vendor = updatedItem.Vendor;
             existingItem.Name = updatedItem.Name;
