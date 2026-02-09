@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -231,6 +232,38 @@ namespace SyncJsonServer
 
       private void SendResponse(HttpListenerResponse response, int statusCode, object data)
       {
+
+         // Настройка формата даты с помощью JsonSerializerSettings
+         Console.WriteLine("1. Cериализация. Настройка формата даты с помощью JsonSerializerSettings:");
+         JsonSerializerSettings customformat = new JsonSerializerSettings
+         {
+            DateFormatString = "dd.MM.yyyy HH:mm:ss.fff"
+         };
+
+         //string jsoncustom = JsonConvert.SerializeObject(log, customformat);
+         //Console.WriteLine(jsoncustom);
+
+         //Event deserializedevent = JsonConvert.DeserializeObject<Event>(jsoncustom, customformat);
+         //Console.WriteLine("2. Десериализованная дата: {0}", deserializedevent.Date);
+         //Console.WriteLine("3. Время (в формате строки): {0}", deserializedevent.Date.ToString("dd.MM.yyyy HH:mm:ss.fff"));
+         //Console.WriteLine("4. Unix timestamp (ms): {0}", deserializedevent.Timestamp);
+
+         // Настройка формата даты с помощью IsoDateTimeConverter
+         //Console.WriteLine("1. Cериализация. Настройка формата даты с помощью IsoDateTimeConverter:");
+         //JsonSerializerSettings customsettings = new JsonSerializerSettings
+         //{
+         //   Converters = { new IsoDateTimeConverter { DateTimeFormat = "dd.MM.yyyy HH:mm:ss.fff" } }
+         //};
+
+         //string jsonsettings = JsonConvert.SerializeObject(log, customsettings);
+         //Console.WriteLine(jsonsettings);
+         //Event deserializedeven = JsonConvert.DeserializeObject<Event>(jsonsettings, customsettings);
+         //Console.WriteLine("2. Десериализованная дата: {0}", deserializedeven.Date);
+         //Console.WriteLine("3. Время (в формате строки): {0}", deserializedeven.Date.ToString("dd.MM.yyyy HH:mm:ss.fff"));
+         //Console.WriteLine("4. Unix timestamp (ms): {0}", deserializedeven.Timestamp);
+         //Console.WriteLine();
+
+
          string json = JsonConvert.SerializeObject(data, Formatting.Indented);
          byte[] buffer = Encoding.UTF8.GetBytes(json);
          response.StatusCode = statusCode;
@@ -239,6 +272,8 @@ namespace SyncJsonServer
          response.ContentEncoding = Encoding.UTF8;
          response.OutputStream.Write(buffer, 0, buffer.Length);
       }
+
+
 
       public void Stop()
       {
