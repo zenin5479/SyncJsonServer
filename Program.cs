@@ -1,5 +1,4 @@
 ﻿using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -270,7 +269,7 @@ namespace SyncJsonServer
          //Console.WriteLine("4. Unix timestamp (ms): {0}", deserializedeven.Timestamp);
          //Console.WriteLine();
 
-         
+
       }
 
       public void Stop()
