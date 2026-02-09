@@ -240,8 +240,8 @@ namespace SyncJsonServer
             DateFormatString = "dd.MM.yyyy HH:mm:ss.fff"
          };
 
-         //string jsoncustom = JsonConvert.SerializeObject(log, customformat);
-         //Console.WriteLine(jsoncustom);
+         string jsoncustom = JsonConvert.SerializeObject(data, customformat);
+         Console.WriteLine(jsoncustom);
 
          //Event deserializedevent = JsonConvert.DeserializeObject<Event>(jsoncustom, customformat);
          //Console.WriteLine("2. Десериализованная дата: {0}", deserializedevent.Date);
