@@ -1,5 +1,4 @@
 ﻿using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -232,15 +231,7 @@ namespace SyncJsonServer
 
       private void SendResponse(HttpListenerResponse response, int statusCode, object data)
       {
-         // Настройка формата даты с помощью IsoDateTimeConverter
-         Console.WriteLine("1. Cериализация. Настройка формата даты с помощью IsoDateTimeConverter:");
-         JsonSerializerSettings customsettings = new JsonSerializerSettings
-         {
-            Converters = { new IsoDateTimeConverter { DateTimeFormat = "dd.MM.yyyy HH:mm:ss.fff" } }
-         };
-         string json = JsonConvert.SerializeObject(data, customsettings);
-
-         //string json = JsonConvert.SerializeObject(data, Formatting.Indented);
+         string json = JsonConvert.SerializeObject(data, Formatting.Indented);
          byte[] buffer = Encoding.UTF8.GetBytes(json);
          response.StatusCode = statusCode;
          response.ContentType = "application/json";
