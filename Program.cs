@@ -240,8 +240,15 @@ namespace SyncJsonServer
             DateFormatString = "dd.MM.yyyy HH:mm:ss.fff"
          };
 
-         string jsoncustom = JsonConvert.SerializeObject(data, customformat);
-         Console.WriteLine(jsoncustom);
+         string json = JsonConvert.SerializeObject(data, customformat);
+         Console.WriteLine(json);
+         //string json = JsonConvert.SerializeObject(data, Formatting.Indented);
+         byte[] buffer = Encoding.UTF8.GetBytes(json);
+         response.StatusCode = statusCode;
+         response.ContentType = "application/json";
+         response.ContentLength64 = buffer.Length;
+         response.ContentEncoding = Encoding.UTF8;
+         response.OutputStream.Write(buffer, 0, buffer.Length);
 
          //Event deserializedevent = JsonConvert.DeserializeObject<Event>(jsoncustom, customformat);
          //Console.WriteLine("2. Десериализованная дата: {0}", deserializedevent.Date);
@@ -263,13 +270,7 @@ namespace SyncJsonServer
          //Console.WriteLine("4. Unix timestamp (ms): {0}", deserializedeven.Timestamp);
          //Console.WriteLine();
 
-         string json = JsonConvert.SerializeObject(data, Formatting.Indented);
-         byte[] buffer = Encoding.UTF8.GetBytes(json);
-         response.StatusCode = statusCode;
-         response.ContentType = "application/json";
-         response.ContentLength64 = buffer.Length;
-         response.ContentEncoding = Encoding.UTF8;
-         response.OutputStream.Write(buffer, 0, buffer.Length);
+         
       }
 
       public void Stop()
