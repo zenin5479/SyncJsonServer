@@ -263,7 +263,6 @@ namespace SyncJsonServer
          //Console.WriteLine("4. Unix timestamp (ms): {0}", deserializedeven.Timestamp);
          //Console.WriteLine();
 
-
          string json = JsonConvert.SerializeObject(data, Formatting.Indented);
          byte[] buffer = Encoding.UTF8.GetBytes(json);
          response.StatusCode = statusCode;
@@ -272,8 +271,6 @@ namespace SyncJsonServer
          response.ContentEncoding = Encoding.UTF8;
          response.OutputStream.Write(buffer, 0, buffer.Length);
       }
-
-
 
       public void Stop()
       {
