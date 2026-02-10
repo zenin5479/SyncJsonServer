@@ -34,6 +34,7 @@ namespace SyncJsonServer
       {
          _listener.Start();
          Console.WriteLine("Сервер запущен по адресу {0}", _url);
+         Console.WriteLine("Сервер запущен по адресу {0}", _url);
          while (true)
          {
             try
